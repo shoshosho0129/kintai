@@ -7,7 +7,7 @@ from .views import EmployeeWorkSummaryAPI
 
 app_name = "letswork"
 urlpatterns = [
-    path('stamp',views.TimeStampView.as_view(), name='stamp'), #打刻
+    path('stamp/',views.TimeStampView.as_view(), name='stamp'), #打刻
     path('stamp/search/<int:e_id>',views.SearchView.as_view(), name='stamp_search'),
     path('employees/', views.EmployeeListView.as_view(), name='employee_list'),  # 従業員一覧
     path('employees/<int:e_id>/', views.EmployeeDetailView.as_view(), name='employee_detail'),# 従業員詳細
