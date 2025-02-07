@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Caption:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/stamp.css' %}">
+    <title>打刻</title>
+</head>
+<body>
+    <div class="container">
+        <div class="title-section">
+            <h1>Let's Work!</h1>
+        </div>
+        <form action="{% url 'letswork:stamp' %}" method="post">
+            {% csrf_token %}
+            <input type="text" id="employee-id" name="e_id" class="name-input" required>
+            <div class="form-group">
+                <label for="w_start">出勤</label>
+                <input type="datetime-local" id="w_start" name="w_start" class="text-input" readonly>
+            </div>
+            <div class="form-group">
+                <label for="b_start">休憩開始</label>
+                <input type="datetime-local" id="b_start" name="b_start" class="text-input" readonly>
+            </div>
+            <div class="form-group">
+                <label for="b_end">休憩終了</label>
+                <input type="datetime-local" id="b_end" name="b_end" class="text-input" readonly>
+            </div>
+            <div class="form-group">
+                <label for="w_end">退勤</label>
+                <input type="datetime-local" id="w_end" name="w_end" class="text-input" readonly>
+            </div>
+            <div class="form-time">
+                <label for="working_hours">労働時間</label>
+                <input type="text" id="working_hours" name="working_hours" class="text-input" readonly>
+            </div>
+            <div class="button-group">
+                <button type="button" class="btn" onclick="setTime('w_start')">出勤</button>
+                <button type="button" class="btn" onclick="setTime('w_end')">退勤</button>
+                <button type="button" class="btn" onclick="setTime('b_start')" id="btn_b_start">休憩開始</button>
+                <button type="button" class="btn" onclick="setTime('b_end')" id="btn_b_end">休憩終了</button>
+            </div>
+            <input type="hidden" name="action" value="w_start" id="action" />
+            <button type="submit" class="register-btn">登録</button>
+        </form>
+    </div>
+    <script>
+        let startTime = null;
+        let endTime = null;
+        let breakStart = null;
+        let breakEnd = null;
+        // 労働時間の計算関数
+        function calculateWorkHours() {
+            let totalWorkTime = 0;
+            if (startTime && endTime) {
+                totalWorkTime += (endTime - startTime) / 1000; // 出勤から退勤までの時間（秒）
+            }
+            if (breakStart && breakEnd) {
+                totalWorkTime -= (breakEnd - breakStart) / 1000; // 休憩時間を引く
+            }
+            const workingHoursField = document.getElementById("working_hours");
+            if (totalWorkTime > 0) {
+                const hours = Math.floor(totalWorkTime / 3600);
+                const minutes = Math.floor((totalWorkTime % 3600) / 60);
+                workingHoursField.value = `${hours}時間 ${minutes}分`;
+            } else {
+                workingHoursField.value = "";
+            }
+        }
+        // ボタンの状態を更新する関数
+        function updateButtonStates() {
+            const wStartValue = document.getElementById("w_start").value; // 出勤
+            const bStartValue = document.getElementById("b_start").value; // 休憩開始
+            const bEndValue = document.getElementById("b_end").value;     // 休憩終了
+            const wEndValue = document.getElementById("w_end").value;     // 退勤
+            // 出勤していれば休憩開始可能
+            document.getElementById("btn_b_start").disabled = !wStartValue;
+            // 休憩開始していれば休憩終了可能
+            document.getElementById("btn_b_end").disabled = !bStartValue;
+            // 休憩が開始されていて、休憩が終了していない場合は退勤ボタンを無効化
+    if (bStartValue && !bEndValue) {
+        document.getElementById("btn_w_end").disabled = true;
+    } else {
+        // 出勤していて、休憩終了後のみ退勤可能
+        document.getElementById("btn_w_end").disabled = !(wStartValue && bEndValue);
+    }
+        }
+        document.getElementById('employee-id').addEventListener("input", function (event) {
+            const id = event.target.value;
+            const w_start = document.getElementById("w_start");
+            const w_end = document.getElementById("w_end");
+            const b_start = document.getElementById("b_start");
+            const b_end = document.getElementById("b_end");
+            fetch(`http://localhost:8000/letswork/stamp/search/${id}`, {
+                method: "GET",
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 取得したデータをフォームにセット
+                if (data.results.w_start) {
+                    const date = new Date(data.results.w_start);
+                    date.setHours(date.getHours() + 9);
+                    w_start.value = date.toISOString().slice(0, 16);
+                    startTime = date;
+                } else {
+                    w_start.value = "";
+                }
+                if (data.results.w_end) {
+                    const date = new Date(data.results.w_end);
+                    date.setHours(date.getHours() + 9);
+                    w_end.value = date.toISOString().slice(0, 16);
+                    endTime = date;
+                    calculateWorkHours(); // 退勤が入力されたら労働時間を計算
+                } else {
+                    w_end.value = "";
+                }
+                if (data.results.b_start) {
+                    const date = new Date(data.results.b_start);
+                    date.setHours(date.getHours() + 9);
+                    b_start.value = date.toISOString().slice(0, 16);
+                    breakStart = date;
+                } else {
+                    b_start.value = "";
+                }
+                if (data.results.b_end) {
+                    const date = new Date(data.results.b_end);
+                    date.setHours(date.getHours() + 9);
+                    b_end.value = date.toISOString().slice(0, 16);
+                    breakEnd = date;
+                } else {
+                    b_end.value = "";
+                }
+                calculateWorkHours(); // 労働時間を再計算
+                updateButtonStates(); // ボタンの状態を更新
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+        // 入力フィールドに現在時刻を設定
+        function setTime(fieldId) {
+            const field = document.getElementById(fieldId);
+            document.getElementById('action').value = fieldId;
+            if (field) {
+                const now = new Date();
+                now.setHours(now.getHours() + 9);
+                const formattedTime = now.toISOString().slice(0, 16); // YYYY-MM-DDTHH:MM
+                field.value = formattedTime;
+                if (fieldId === "w_start") {
+                    startTime = now;
+                } else if (fieldId === "w_end") {
+                    endTime = now;
+                    calculateWorkHours(); // 退勤時に計算
+                } else if (fieldId === "b_start") {
+                    breakStart = now;
+                } else if (fieldId === "b_end") {
+                    breakEnd = now;
+                }
+                updateButtonStates(); // ボタンの状態を更新
+                calculateWorkHours(); // 労働時間を計算
+            }
+        }
+        // 初期化: ページロード時にボタンの状態を更新
+        window.onload = function () {
+            updateButtonStates();
+        };
+    </script>
+</body>
+</html>

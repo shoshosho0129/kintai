@@ -1,0 +1,29 @@
+img{
+    width: 15%;
+    margin-left: 60px;
+    margin-top: 35px;
+}
+
+h1{
+    text-align: center;
+    font-size: 80px;
+}
+
+.btn {
+    padding: 10px 40px;
+    margin: 0px 0px;
+    font-size: 2em;
+    font-weight: 900;
+    color: #fff;
+    border-radius: 100px;
+    background-color: #02A50F;
+    cursor: pointer;
+  }
+
+  .container {
+    display: flex; /* 子要素をフレックスボックスとして扱う */
+    justify-content: center; /* 水平方向に中央寄せ */
+    align-items: center; /* 垂直方向に中央寄せ */
+    height: 53vh; /* 画面全体の高さ */
+    margin: 0; /* 余白をリセット */
+  }

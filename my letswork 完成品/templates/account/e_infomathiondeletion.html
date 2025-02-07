@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/e_information deletion.css' %}">
+    <title>従業員削除</title>
+</head>
+<img src="{% static '/image/Group 119.png' %}" alt="鍵アイコン" class="icon-key"> 
+<body>
+    <h1>  {{ employee.e_first1 }}{{employee.e_last1 }}さんの情報を<br>本当に削除しますか？<br>(戻すことはできません)</h1>
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="button-group">
+        <button class="btn" type="submit">削除</button>
+    </form>
+        <a class="btn1" onclick="location.href='{% url 'letswork:employee_detail' e_id=employee.e_id %}'">戻る</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>勤怠情報詳細</title>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/a.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Let's Work!</h1>
+            <div class="menu">
+                <span>管理者</span>
+                <div class="dropdown">
+                    <button class="menu-btn">☰</button>
+                    <div class="dropdown-content">
+                        <a href="#">従業員新規登録</a>
+                        <a href="#">管理者新規登録</a>
+                        <a href="#">ログアウト</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="form">
+            <div class="form-group" id="a">
+                <label>出勤日</label>
+                <input class="input" type="date">
+            </div>
+            <div class="time">
+                <div class="form-group">
+                    <label>出勤時間</label>
+                    <input type="text" class="text-input">
+                </div>
+                <div class="form-group">
+                    <label>退勤時間</label>
+                    <input type="text" class="text-input">
+                </div>
+                <div class="form-group">
+                    <label>休憩開始時間</label>
+                    <input type="text" class="text-input">
+                </div>
+                <div class="form-group">
+                    <label>休憩終了時間</label>
+                    <input type="text" class="text-input">
+                </div>
+            </div>
+            <div class="form-time">
+                <label>労働時間</label>
+                <input type="text" class="w-t-input">
+            </div>
+        </div>
+        <div class="button-group">
+            <button class="btn">修正</button>
+
+            <button class="btn">戻る</button>
+        </div>
+</body>
+
+</html>

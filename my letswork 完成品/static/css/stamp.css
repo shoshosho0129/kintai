@@ -1,0 +1,124 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: 350px;
+    background-color: #fff;
+    zoom: 50%;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-family: 'PT Sans Caption', sans-serif;
+    font-size: 9em;
+    color: #1A4213;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.name-input {
+    text-align: center;
+    margin-bottom: 30px;
+    width: 70%;
+    padding: 20px;
+    font-size: 4em;
+    border: 4px solid #000;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    width: 100%;
+}
+
+.form-group label {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: bold;
+    font-size: 3em;
+}
+
+.form-time {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    width: 100%;
+}
+
+.form-time label {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: bold;
+    font-size: 4em;
+}
+
+.form-time .text-input {
+    text-align: center;
+    width: 45%;
+    padding: 10px;
+    margin: 0;
+    font-size: 4em;
+}
+
+.text-input {
+    text-align: center;
+    width: 40%;
+    padding: 10px;
+    font-size: 3em;
+    margin-right: 30px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    width: 150%;
+    position: relative;  /* 親要素に対する相対位置 */
+    left: -25%;  /* 左に25%分ずらして中央寄せ */
+}
+
+.btn {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    padding: 30px 50px;
+    margin: 0 50px;
+    font-size: 3em;
+    font-weight: 900;
+    -webkit-text-stroke: 0.5px #000;
+    color: #00F65A;
+    border: 2px solid #00F65A;
+    border-radius: 100px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.btn:active {
+    color: #fff;
+    background-color: #00F65A;
+}
+
+.register-btn {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    margin-top: 40px;
+    font-size: 3em;
+    font-weight: 900;
+    color: #00D9FF;
+    background: none;
+    border: 3px solid #00D9FF;
+    border-radius: 100px;
+    cursor: pointer;
+    padding: 30px 80px;
+    -webkit-text-stroke: 1px #0033FF;
+}
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    display: none;  
+}

@@ -1,0 +1,42 @@
+.button-group {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+  .btn {
+    padding: 10px 50px;
+    margin: 60px 220px;
+    font-size:1.5em;
+    font-weight: 900;
+    color: #ff0000;
+    border-radius: 100px;
+    background-color: #ffffff;
+    cursor: pointer;
+  }
+  .btn1{
+    padding: 10px 50px;
+    margin: 60px 220px;
+    font-size: 1.5em;
+    font-weight: 900;
+    color: #ffffff;
+    border-radius: 100px;
+    background-color: #ff0000;
+    cursor: pointer;
+  }
+
+h1{
+    font-size: 30px;
+    padding: 3px;
+    text-align: left;
+    margin-left: 420px;
+    border-radius: 50px;
+    margin-top: 1px;
+}
+img{
+    padding: 3px;
+    text-align: left;
+    margin-left: 480px;
+    margin-top: 2px;
+    width: 220px;
+    height: 220px;
+}

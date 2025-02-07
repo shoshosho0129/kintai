@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理者新規登録</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/a_register.css' %}">
+</head>
+<body>
+  <div class="login-container">
+    <h1>
+      <img src="{% static 'image/key-solid 3.png' %}" alt="鍵アイコン" class="icon-key"> 管理者新規登録
+    </h1>
+
+    <!-- エラー全体を表示 -->
+    {% if form.non_field_errors %}
+      <div class="error-message">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      
+      <!-- 各フィールドのエラー表示と整列 -->
+      <div class="form-group">
+        <label for="a_no">{{ form.a_no.label }}</label>
+        {{ form.a_no }}
+        {% for error in form.a_no.errors %}
+          <div class="error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="a_first">{{ form.a_first.label }}</label>
+        {{ form.a_first }}
+        {% for error in form.a_first.errors %}
+          <div class="error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="a_last">{{ form.a_last.label }}</label>
+        {{ form.a_last }}
+        {% for error in form.a_last.errors %}
+          <div class="error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="password1">{{ form.password1.label }}</label>
+        {{ form.password1 }}
+        {% for error in form.password1.errors %}
+          <div class="error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="password2">{{ form.password2.label }}</label>
+        {{ form.password2 }}
+        {% for error in form.password2.errors %}
+          <div class="error">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div class="button-group">
+        <button type="submit" class="add-btn">確認</button>
+    </form>
+
+
+      <button class="return" onclick="location.href='{% url 'letswork:employee_list' %}'">戻る</button>
+    </div>
+
+
+   
+  </div>
+</body>
+</html>

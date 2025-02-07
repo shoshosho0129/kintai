@@ -1,0 +1,34 @@
+.button1{
+    margin-top: 150px;
+    margin-left: 397px;
+    background-color: #02A50F;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 7px 0;
+    width: 17%;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button2{
+    margin-top: 150px;
+    margin-left: 115px;
+    background-color: #02A50F;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 7px 0;
+    width: 17%;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  img{
+    display: flex;
+    margin-left: 480px;
+  }

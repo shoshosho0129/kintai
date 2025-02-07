@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>従業員氏名変更</title>
+    <link rel="stylesheet" href="{% static 'css/e_register.css' %}">
+</head>
+<body>
+    <h1>
+        <img src="{% static 'image/people 1.png' %}" alt="鍵アイコン" class="change_icon"> 従業員氏名変更
+    </h1>
+
+    <form method="post" action="{% url 'account:change_name' e_id=employee.e_id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="e_first1">{{ form.e_first1.label }}</label>
+            {{ form.e_first1 }}
+            {% for error in form.e_first1.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="e_last1">{{ form.e_last1.label }}</label>
+            {{ form.e_last1 }}
+            {% for error in form.e_last1.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="e_first2">{{ form.e_first2.label }}</label>
+            {{ form.e_first2 }}
+            {% for error in form.e_first2.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="e_last2">{{ form.e_last2.label }}</label>
+            {{ form.e_last2 }}
+            {% for error in form.e_last2.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="button-group">
+            <button class="btn" type="submit">変更</button>
+            <a href="{% url 'letswork:employee_detail' e_id=employee.e_id %}" class="btn">戻る</a>
+        </div>
+    </form>
+
+</body>
+</html>

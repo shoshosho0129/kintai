@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>有給確認</title>
+  <link rel="stylesheet" href="{% static 'css/Paiddelete.css' %}">
+</head>
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>有給取得日</th>
+        <th>有給承認者</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for paid in paid_entries %}
+      <tr>
+          <td>{{ paid.p_time }}</td>
+          <td>{{ paid.a_no.a_last }} {{ paid.a_no.a_first }}</td>  <!-- 管理者ID（Account_aモデルの関連情報） -->
+          <form method="post" action="{% url 'letswork:paid_confirm' e_id=employee.e_id %}">
+            {% csrf_token %}
+          <td><button class="btn1">削除</button></td>
+          </form>
+      </tr>
+      {% empty %}
+      <tr>
+          <td colspan=\"3\">有給情報が登録されていません。</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

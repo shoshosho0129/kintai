@@ -1,0 +1,89 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  color: #333;
+}
+
+.login-container {
+  text-align: center;
+  width: 100%; /* 相対指定に変更 */
+  max-width: 100%;
+  background-color: #fff;
+  border-radius: px;
+  padding: 100px;
+
+}
+
+.login-container h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  margin-top: 0px;
+  margin-left: 40px;
+}
+
+.login-container h1 .icon-key {
+  width: 48px;
+  height: 48px;
+  margin-right: 5px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 20px;
+  margin-bottom: 5px;
+  width: auto;
+  text-align: left;
+  margin-left: 50px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 80%;
+  padding: 15px;
+  margin-top: 15px;
+  margin-left: 50px;
+  border: none;
+  border-bottom: 1px solid;
+  font-size: 16px;
+  outline: none;
+ 
+}
+
+.button-group{
+  display: flex;
+}
+
+.add-btn,
+.return {
+  background-color: #02A50F;
+  display: block;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px;
+  width: 40%;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 100px;
+ margin-left: 300px;
+}
+
+

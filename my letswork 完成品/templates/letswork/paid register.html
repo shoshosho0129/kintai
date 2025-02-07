@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="{% static 'css/paid register.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>有給登録</title>
+</head>
+
+<body>
+  <h1>日付を登録してください。</h1>
+  <a href="{% url 'letswork:employee_detail' e_id=employee.e_id %}">戻る</a>
+</body>
+</html>

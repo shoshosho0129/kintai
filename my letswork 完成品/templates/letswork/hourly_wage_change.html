@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>時給変更</title>
+  <!-- CSSファイルを読み込む -->
+  <link rel="stylesheet" href="{% static 'css/hourly_wage_change.css' %}">
+</head>
+
+<body>
+  <!-- ヘッダー部分 -->
+  <header>
+    <h1>Let's Work!</h1>
+    <div class="menu">
+        <span>{{ account_admins.a_first }}{{account_admins.a_last }}</span>
+        <div class="dropdown">
+            <button class="menu-btn">☰</button>
+            <div class="dropdown-content">
+              <a href="{% url 'account:e_register' %} ">従業員新規登録</a>
+                <a href="{% url 'account:a_signup' %}">管理者新規登録</a>
+                <a href="{% url 'account:user_logout' %}">ログアウト</a>
+            </div>
+        </div>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <h2>時給変更</h2>
+
+  <form method="post" action="{% url 'letswork:hourly_wage_change' e_id=employee.e_id %}">
+    {% csrf_token %}
+    <div class="mozi">
+      変更前の時給
+      <div class="en">
+        <input type="text" value="{{ employee.hour|floatformat:0 }}" disabled> 円
+      </div>
+    </div>
+
+    <div class="air"></div>
+
+    <div class="mozi">
+      変更後の時給
+      <div class="en">
+        <input type="text" id="new_hourly_wage" name="new_hourly_wage" placeholder="NNN"> 円
+      </div>
+    </div>
+
+    <!-- ボタン -->
+    <div class="button-group">
+      <button type="submit" class="btn">変更</button>
+      <button type="button" class="btn" onclick="location.href='{% url 'letswork:employee_detail' employee.e_id %}'">戻る</button>
+    </div>
+  </form>
+</body>
+</html>

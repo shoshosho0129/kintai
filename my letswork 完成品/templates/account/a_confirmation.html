@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理者登録確認</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/a_confirmation.css' %}">
+</head>
+<body>
+  <div class="login-container">
+    <h1>
+      <img src="{% static 'image/key-solid 3.png' %}" alt="鍵アイコン" class="icon-key"> 管理者登録確認
+    </h1>
+    <form method="post">
+      {% csrf_token %}
+      <label for="no">No.</label>
+      <input type="text" id="no" value="{{ signup_data.a_no }}" readonly>
+      
+      <label for="last_name">姓</label>
+      <input type="text" id="last_name" value="{{ signup_data.a_last }}" readonly><br>
+      
+      <label for="first_name">名</label>
+      <input type="text" id="first_name" value="{{ signup_data.a_first }}" readonly><br>
+      
+      <label for="password">パスワード</label>
+      <input type="password" id="password" value="{{ masked_password }}" readonly><br>
+      
+      <button type="submit" class="add-btn">登録</button>
+      <button type="button" class="return" onclick="location.href='{% url 'account:a_signup' %}'">戻る</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/e_register.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>従業員新規登録</title>
+</head>
+<body>
+    <h1>
+      <img src="{% static 'image/key-solid 3.png' %}" alt="鍵アイコン" class="icon-key">従業員新規登録
+    </h1>
+
+    <form method="post" action="{% url 'account:e_register' %}">
+      {% csrf_token %}
+
+    <div class="form-group">
+        <label for="e_first1">{{ form.e_first1.label }}</label>
+        {{ form.e_first1 }}
+        {% for error in form.e_first1.errors %}
+          <div class="error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="e_last1">{{ form.e_last1.label }}</label>
+        {{ form.e_last1 }}
+        {% for error in form.e_last1.errors %}
+          <div class="error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="e_first2">{{ form.e_first2.label }}</label>
+        {{ form.e_first2 }}
+        {% for error in form.e_first2.errors %}
+          <div class="error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="e_last2">{{ form.e_last2.label }}</label>
+        {{ form.e_last2 }}
+        {% for error in form.e_last2.errors %}
+          <div class="error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+    <div class="button-group">
+        <button class="btn" type="submit">登録</button>
+      </form>
+        <button class="btn" onclick="location.href='{% url 'letswork:employee_list' %}'">戻る</button> 
+        </div>
+
+</body>
+</html>

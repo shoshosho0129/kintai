@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="logout.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/logout.css">
+    <title>logout</title>
+    <a href="{% url 'account:logout' %}">Logout</a>
+    <form method="post" action="{% url 'account:logout' %}">
+</head>
+<body>
+    <img src="image/images.png" alt="">
+    <h1>ログアウトしました</h1>
+    <div class="container">
+    <button class="btn">ログイン</button>
+    </div>
+</body>
+</html>

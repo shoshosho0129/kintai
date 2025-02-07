@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>勤怠情報詳細</title>
+    <link rel="stylesheet" href="{% static 'css/attendance infomartiondetails.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode/dist/JsBarcode.all.min.js"></script>
+
+    <style>
+        /* ポップアップのスタイル */
+        /* 有給登録 */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 700px;
+            height: 700px;
+            text-align: center;
+        }
+
+        .btn1.btn-primary,
+        .close-register {
+            background-color: #02A50F !important; /* 優先順位を高める */
+            color: #fff !important; /* 優先順位を高める */
+            border: none !important;
+            width: 150px !important;
+            height: 50px !important;
+            padding: 5px 10px !important; /* パディングを小さくする */
+            border-radius: 50px !important; /* 丸みは維持しつつサイズに応じて調整 */
+            cursor: pointer !important;
+            font-size: 30px !important; /* フォントサイズを小さくする */
+            text-align: center !important;
+            margin-top: 120px;
+            font-family: Arial, sans-serif !important;
+        }
+
+        .button-container {
+            display: flex; /* 横並びにする */
+            justify-content: center; /* 中央揃え */
+            gap: 10px; /* ボタン間の余白を設定 */
+            margin-top: 200px; /* ボタンを下部に配置 */
+        }
+
+        input{
+            margin-top: -100px; /* 上に少し移動 */
+        }
+        
+
+        /* 有給確認 */
+        
+          .table {
+            border-collapse: collapse !important;
+            width: 100% !important;
+            margin-bottom: 20px !important;
+            margin: 0 auto;
+            margin-top: 60px;
+          }
+          
+          .th, .td {
+            text-align: center;
+            padding: 0px;
+            border: 2px solid #ccc;
+            font-size: 20px;
+          }
+          
+          .th {
+            background-color: #02A50F;
+            color: white;
+          }
+          
+          .td {
+            background-color: #d4f8d4;
+          }
+
+          .delete-btn {
+            background-color: #02a50f !important;
+            color: white !important;
+            border: none !important;
+            padding: 13px 6px !important;
+            border-radius: 5px !important;
+            cursor: pointer !important;
+            font-size: 20px !important;
+            width: 100% !important;
+            height: 100% !important;
+            text-align: center !important;
+          }
+
+          .return{
+            background-color: #02A50F !important; /* 優先順位を高める */
+            color: #fff !important; /* 優先順位を高める */
+            border: none !important;
+            width: 120px !important;
+            height: 40px !important;
+            padding: 5px 10px !important; /* パディングを小さくする */
+            border-radius: 50px !important; /* 丸みは維持しつつサイズに応じて調整 */
+            cursor: pointer !important;
+            font-size: 20px !important; /* フォントサイズを小さくする */
+            text-align: center !important;
+            margin-top: 0px;
+          }
+
+
+          /* バーコード生成 */
+
+          .popup-overlay {
+            display: flex; /* 初期状態では非表示 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        
+        }
+        
+        .popup-content-barcode {
+            background-color: white;
+            padding: 0px;
+            border-radius: 10px;
+            width: 40%;
+            text-align: center;
+            margin-bottom: 50px;
+
+        }
+        
+        #barcode {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px auto;
+        }
+        
+        
+        .popup-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+    
+        }
+        
+        
+        #download-btn,
+        #close-popup {
+            background-color: #02A50F;
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            border-radius: 90px;
+            cursor: pointer;
+            font-size: 30px;
+            margin-bottom: 90px;
+            width: 400px;
+            text-align: center;
+        }
+        
+        #download-btn {
+            margin-right: 10px;
+        }
+        
+        
+          
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Let's Work!</h1>
+            <div class="menu">
+                <span>{{ account_admin.a_first }} {{ account_admin.a_last }}</span>
+                <div class="dropdown">
+                    <button class="menu-btn">☰</button>
+                    <div class="dropdown-content">
+                        <a href="{% url 'account:e_register'%}">従業員新規登録</a>
+                        <a href="{% url 'account:a_signup'%}">管理者新規登録</a>
+                        <a href="{% url 'account:user_logout'%}">ログアウト</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <main>
+            <div class="sidebar">
+                <div class="sidebar">
+                    <button onclick="location.href='{% url 'account:change_name' e_id=employee.e_id %}'">氏名変更 ></button>
+                    <button onclick="location.href='{% url 'account:delete' e_id=employee.e_id %}'">削除　　 ></button>
+                    
+                    <form method="get" action="{% url 'letswork:hourly_wage_change' e_id=employee.e_id %}">
+                        <button type="submit" class="btn btn-primary">
+                             時給変更  >
+                        </button>
+                    </form>
+                    
+                    <button onclick="location.href='{% url 'letswork:works' e_id=employee.e_id %}'">勤怠一覧 ></button>
+
+
+
+                    <button id="vacation-register-btn">有給登録 ></button>
+                            <!-- ポップアップ -->
+        <div id="popup-register" class="popup">
+            <div class="popup-content">
+                <form method="post" action="{% url 'letswork:paid_register' e_id=employee.e_id %}">
+                    {% csrf_token %}
+                    <h3>有給登録</h3>
+                    <div>
+                        <input class="input" type="date" name="p_time">
+                    </div>
+                    <div class="button-container">
+                        <div>
+                             <button type="submit" class="btn1 btn-primary">有給登録</button>
+                        </div>
+                </form>
+                             <button type="button" class="close-register" onclick="closePopup('popup-register')">戻る</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <button id="vacation-confirm-btn">有給確認 ></button>
+            <!-- ポップアップ -->
+            <div id="popup-confirm" class="popup">
+                <div class="popup-content">
+                    <table class="table">
+                        <thead>
+                            <h3>有給取得日一覧</h3>
+                            <tr class="tr">
+                                <th class="th">有給取得日</th>
+                                <th class="th">有給承認者</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paidEntriesBoby">
+                            {% for paid in paid_entries %}
+                            <tr class="tr">
+                                <td class="td">{{ paid.p_time }}</td>
+                                <td class="td">{{ paid.a_no.a_last }} {{ paid.a_no.a_first }}</td>
+                                <td class="td">
+                                    <form method="post" action="{% url 'letswork:paid_confirm' e_id=employee.e_id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="delete-btn" name="delete_id" value="{{ paid.id }}">削除</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr class="tr">
+                                <td class="td" colspan="3">有給情報が登録されていません。</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <button class="return" onclick="closePopup('popup-confirm')">戻る</button>
+                </div>
+            </div>
+        
+    
+    </div>
+</div>
+
+            <div class="content">
+                <h2>
+                    <select id="month-select" name="month">
+                        {% for m in months %}
+                        <option value="{{ m }}" {% if m == month %}selected{% endif %}>
+                            {{ m }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </h2>
+                <table>
+                    <tr>
+                        <th>氏名</th>
+                        <td>{{ employee.e_first1 }} {{ employee.e_last1 }}</td>
+                    </tr>
+                    <tr>
+                        <th>出勤日</th>
+                        <td class="day">{{ attendance_days }} 日</td></td>
+                    </tr>
+                    <tr>
+                        <th>労働時間</th>
+                        <td>{{ total_work_duration }}</td>                    </tr>
+                    <tr>
+                        <th>時給</th>
+                        <td class="money">{{ employee.hour|floatformat:0 }}円</td>
+                    </tr>
+                    <tr>
+                        <th>月給</th>
+                        <td>{{ total_salary|floatformat:0 }} 円</td>
+                    </tr>
+                </table>
+                <a href="#" id="barcode-generate-btn" class="barcode-link">バーコード生成</a>
+
+                <!-- ポップアップ画面 -->
+                <div id="barcode-popup" class="popup-overlay" style="display: none;">
+                    <div class="popup-content-barcode">
+                        <svg id="barcode"></svg>
+                        <div class="popup-buttons">
+                            <button id="download-btn">ダウンロード</button>
+                            <button id="close-popup">閉じる</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="back-btn" onclick="location.href='{% url 'letswork:employee_list' %}'">戻る</button>
+            </div>
+            </div>
+        </main>
+
+        <script>
+            function openPopup() {
+              document.getElementById('popup').style.display = 'flex';
+            }
+        
+            function closePopup() {
+              document.getElementById('popup').style.display = 'none';
+            }
+
+                    // バーコード生成
+        document.getElementById("barcode-generate-btn").addEventListener("click", function() {
+            var employeeId = "{{ employee.e_id }}" // 従業員IDを取得
+
+        // JsBarcodeでバーコードを生成
+            JsBarcode("#barcode", employeeId,{
+                format: "CODE128",
+                displayValue: true,
+                width: 15,
+                fontSize: 40,
+                fontOptions: "bold",
+                height: 600,
+                margin: 100
+            });
+
+            // ポップアップを表示
+            document.getElementById("barcode-popup").style.display = "flex";
+        });
+
+        // ダウンロードボタン
+        document.getElementById("download-btn").addEventListener("click", function() {
+            var svg = document.getElementById("barcode");
+            var url = "data:image/svg+xml;base64," + btoa(svg.outerHTML); // SVGをBase64に変換
+
+            //ダウンロードリンクを作成
+            var link = document.createElement("a");
+            link.href = url;
+            link.download = "barcode_" + "{{ employee.e_id }}.svg"; // ファイル名
+            link.click();
+        });
+
+        // 閉じるボタン
+        document.getElementById("close-popup").addEventListener("click", function() {
+            document.getElementById("barcode-popup").style.display = "none";
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            function fetchWorkSummary() {
+                let employeeId = "{{ employee.e_id }}";
+                let selectedMonth = document.getElementById("month-select").value;
+                
+                fetch(`/api/employee-work-summary/${employeeId}/?month=${selectedMonth}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("total-work-duration").innerText = data.total_work_duration;
+                        document.getElementById("total-salary").innerText = data.total_salary + " 円";
+                    })
+                    .catch(error => console.error("エラー:", error));
+            }
+        
+            // 月が変更されたら更新
+            document.getElementById("month-select").addEventListener("change", fetchWorkSummary);
+        
+            // 初回ロード時にデータ取得
+            fetchWorkSummary();
+        });
+          </script>
+        <script src="{% static 'js/popup.js' %}"></script>
+</body>
+</html>

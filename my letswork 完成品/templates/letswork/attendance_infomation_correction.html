@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>勤怠情報修正</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/attendance information correction.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Let's Work!</h1>
+            <div class="menu">
+                <span>{{ account_admin.a_first }} {{ account_admin.a_last }}</span>
+                <div class="dropdown">
+                    <button class="menu-btn">☰</button>
+                    <div class="dropdown-content">
+                        <a href="{% url 'account:e_register'%}">従業員新規登録</a>
+                        <a href="{% url 'account:a_signup'%}">管理者新規登録</a>
+                        <a href="#">ログアウト</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <form method="post">
+                {% csrf_token %}
+                {% if work %}
+                <div class="form-group">
+                    <label for="date">出勤日</label>
+                    <input type="date" id="date" name="date" value="{{ work.w_start|date:'Y-m-d' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="start_time">出勤時間</label>
+                    <input type="time" id="start_time" name="start_time" value="{{ work.w_start|date:'H:i' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="end_time">退勤時間</label>
+                    <input type="time" id="end_time" name="end_time" value="{{ work.w_end|date:'H:i' }}">
+                </div>
+                <div class="form-group">
+                    <label for="break_start">休憩開始時間</label>
+                    <input type="time" id="break_start" name="break_start" value="{{ work.b_start|date:'H:i' }}">
+                </div>
+                <div class="form-group">
+                    <label for="break_end">休憩終了時間</label>
+                    <input type="time" id="break_end" name="break_end" value="{{ work.b_end|date:'H:i' }}">
+                </div>
+                {% else %}
+                <p>勤怠情報が存在しません。</p>
+                {% endif %}
+                <div class="button-group">
+                    <button type="submit" class="btn-primary">更新</button>
+                    <button type="button" class="btn-primary" onclick="location.href='{% url 'letswork:employee_detail' e_id=employee.e_id %}'">戻る</button>
+                </div>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

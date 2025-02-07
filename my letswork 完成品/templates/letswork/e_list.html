@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>従業員一覧</title>
+    <link rel="stylesheet" href="{% static 'css/e_list.css' %}">
+</head>
+
+<body>
+    <header>
+        <h1>Let's Work!</h1>
+        <div class="menu">
+            <span class="admin">{{ account_admins.a_first }}{{account_admins.a_last }}</span>
+            <div class="dropdown">
+                <button class="menu-btn">☰</button>
+                <div class="dropdown-content">
+                    <a href="{% url 'account:e_register' %} ">従業員新規登録</a>
+                    <a href="{% url 'account:a_signup'%}">管理者新規登録</a>
+                    <a href="{% url 'account:user_logout'%}">ログアウト</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 検索フォーム -->
+    <div class="search-container">
+        <form method="get" action="{% url 'letswork:employee_list' %}">
+            <input type="text" name="q" class="search-box" placeholder="🔍 名前やフリガナで検索" value="{{ search_query }}">
+
+        </form>
+    </div>
+    
+<!-- ページネーション -->
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="box1">◀</a>
+    {% else %}
+        <div class="box1 disabled">◀</div>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if num == page_obj.number %}
+            <div class="box2 current">{{ num }}</div>
+        {% else %}
+            <a href="?page={{ num }}" class="box2">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="box1">▶</a>
+    {% else %}
+        <div class="box1 disabled">▶</div>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="box1">▶|</a>
+    {% else %}
+        <div class="box1 disabled">▶|</div>
+    {% endif %}
+</div>
+  
+    
+    <!-- 従業員一覧テーブル -->
+    {% if page_obj %}
+    <table class="employee-table">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>氏名</th>
+                <th>フリガナ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in page_obj %}
+            <tr>
+                <td><a href="{% url 'letswork:employee_detail' e_id=employee.e_id %}">{{ employee.e_id }}</a></td>
+                <td>{{ employee.e_first1 }} {{ employee.e_last1 }}</td>
+                <td>{{ employee.e_first2 }} {{ employee.e_last2 }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">該当する従業員が見つかりませんでした。</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; margin-top: 20px;">表示する従業員データがありません。</p>
+    {% endif %}
+</body>
+
+</html>

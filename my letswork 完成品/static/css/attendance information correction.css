@@ -1,0 +1,152 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #1A4213;
+}
+header h1 {
+    font-size: 50px;
+    margin: 0;
+}
+.menu {
+    display: flex;
+    align-items: center;
+}
+.menu span {
+    font-size: 25px;
+    color: white;
+    background-color: #2E7D32;
+    border-radius: 0px 0px 0px 30px;
+    width: 250px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1px;
+    text-align: center;
+}
+.dropdown {
+    position: relative;
+}
+.menu-btn {
+    background-color: #2E7D32;
+    color: white;
+    border: none;
+    font-size: 70px;
+    width: 150px;
+    height: 110px;
+    cursor: pointer;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.dropdown-content a {
+    color: #FFFFFF;
+    background-color: #2E7D32;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    width: 130px;
+    height: 35px;
+    text-align: center;
+}
+.dropdown-content a:hover {
+    background-color: #02A50F;
+}
+.menu-btn:hover + .dropdown-content,
+.dropdown-content:hover {
+    display: block;
+}
+
+
+
+/* フォームグループのレイアウト変更 */
+.form-group {
+    display: flex;
+    align-items: center; 
+    gap: 320px; 
+    margin-bottom: 25px; 
+    margin-left: -60px;
+}
+
+/* ラベルのデザイン */
+label {
+    font-size: 25px;
+    color: #333;
+    width: 150px; 
+    margin-left: 340px; 
+}
+
+/* 入力フィールドのデザイン */
+input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: none; 
+    width: 200px; 
+    max-width: 100%; 
+}
+
+
+form{
+    margin-top: 100px;
+}
+
+
+/* ボタンエリアの調整 */
+.button-group {
+    display: flex;
+    justify-content: center; /* ボタンを中央揃え */
+    gap: 300px; /* ボタン間の余白を追加 */
+    margin-top: 80px;
+    margin-bottom: 100px;
+}
+
+/* ボタンのスタイル修正 */
+.btn-primary, .back-btn {
+    display: inline-flex; /* inline-flexで余分なスタイルを排除 */
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 20px; 
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 180px;
+    text-align: center;
+    writing-mode: horizontal-tb; /* 横書き固定 */
+    white-space: nowrap; /* 折り返し防止 */
+    direction: ltr; /* 左から右方向で文字を設定 */
+    overflow: visible; /* 必要であればオーバーフローの調整 */
+}
+
+/* プライマリボタンの色 */
+.btn-primary {
+    background-color: #2e7d32;
+    color: white;
+}
+
+/* 戻るボタンの色 */
+.back-btn {
+    background-color: #2e7d32;
+    color: white;
+}

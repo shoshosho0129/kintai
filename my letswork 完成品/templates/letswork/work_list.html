@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>従業員の勤怠一覧</title>
+    <link rel="stylesheet" href="{% static 'css/work_list.css' %}">
+
+</head>
+<body>
+    <h1>{{ employee.e_first1 }} {{ employee.e_last1 }} さんの勤怠一覧</h1>
+    <table border="1">
+        <tr>
+            <th>変更</th>
+            <th>開始時間</th>
+            <th>終了時間</th>
+            <th>休憩開始</th>
+            <th>休憩終了</th>
+            <th>時給</th>
+            <th>勤務日</th>
+            <th>労働時間</th>
+        </tr>
+        {% for work in works %}
+        <tr>
+            <td><a href="{% url 'letswork:attendance_edit' e_id=employee.e_id %}">変更</a></td>
+            <td>{{ work.w_start }}</td>
+            <td>{{ work.w_end }}</td>
+            <td>{{ work.b_start }}</td>
+            <td>{{ work.b_end }}</td>
+            <td>{{ employee.hour }}</td>
+            <td>{{ work.attendance_date }}</td>
+            <td>{{ work.work_duration_formatted }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <button type="button" class="btn" onclick="location.href='{% url 'letswork:employee_detail' employee.e_id %}'">戻る</button>
+</body>
+</html>
